@@ -261,6 +261,72 @@
             font-weight: 500;
         }
 
+        /* Ana sayfada kalp galeri */
+        .main-heart-gallery {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) rotate(-45deg);
+            width: 320px;
+            height: 300px;
+            z-index: 50;
+            display: none;
+            animation: heartbeat 2s infinite;
+        }
+
+        @keyframes heartbeat {
+            0%, 100% { transform: translate(-50%, -50%) rotate(-45deg) scale(1); }
+            50% { transform: translate(-50%, -50%) rotate(-45deg) scale(1.05); }
+        }
+
+        .main-heart-gallery:before,
+        .main-heart-gallery:after {
+            content: '';
+            position: absolute;
+            width: 160px;
+            height: 250px;
+            background: rgba(255, 45, 149, 0.1);
+            border: 3px solid var(--neon-pink);
+            border-radius: 80px 80px 0 0;
+        }
+
+        .main-heart-gallery:before {
+            left: 160px;
+            transform: rotate(-45deg);
+            transform-origin: 0 100%;
+        }
+
+        .main-heart-gallery:after {
+            left: 0;
+            transform: rotate(45deg);
+            transform-origin: 100% 100%;
+        }
+
+        .main-image-slideshow {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) rotate(45deg);
+            width: 220px;
+            height: 220px;
+            z-index: 51;
+        }
+
+        .main-gallery-image {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 20px;
+            border: 3px solid var(--neon-pink);
+            opacity: 0;
+            transition: opacity 1.5s ease;
+        }
+
+        .main-gallery-image.active {
+            opacity: 1;
+        }
+
         .gallery-overlay {
             position: fixed;
             top: 0;
@@ -272,67 +338,6 @@
             display: none;
             justify-content: center;
             align-items: center;
-        }
-
-        .heart-gallery {
-            position: relative;
-            width: 320px;
-            height: 300px;
-            transform: rotate(-45deg);
-            animation: heartbeat 2s infinite;
-        }
-
-        @keyframes heartbeat {
-            0%, 100% { transform: rotate(-45deg) scale(1); }
-            50% { transform: rotate(-45deg) scale(1.05); }
-        }
-
-        .heart-gallery:before,
-        .heart-gallery:after {
-            content: '';
-            position: absolute;
-            width: 160px;
-            height: 250px;
-            background: rgba(255, 45, 149, 0.1);
-            border: 3px solid var(--neon-pink);
-            border-radius: 80px 80px 0 0;
-        }
-
-        .heart-gallery:before {
-            left: 160px;
-            transform: rotate(-45deg);
-            transform-origin: 0 100%;
-        }
-
-        .heart-gallery:after {
-            left: 0;
-            transform: rotate(45deg);
-            transform-origin: 100% 100%;
-        }
-
-        .image-slideshow {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%) rotate(45deg);
-            width: 220px;
-            height: 220px;
-            z-index: 2001;
-        }
-
-        .gallery-image {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            border-radius: 20px;
-            border: 3px solid var(--neon-pink);
-            opacity: 0;
-            transition: opacity 0.8s ease;
-        }
-
-        .gallery-image.active {
-            opacity: 1;
         }
 
         .gallery-controls {
@@ -420,14 +425,23 @@
             transform: translateY(0);
         }
 
+        .heart-gallery-overlay {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 2001;
+            display: none;
+        }
+
         @media (max-width: 768px) {
             .controls-container { max-width: 350px; }
             .music-control { max-width: 280px; padding: 20px; }
             .music-title { font-size: 1.2rem; }
             .music-btn { width: 60px; height: 60px; font-size: 1.4rem; }
             .gallery-btn { width: 55px; height: 55px; font-size: 1.6rem; }
-            .heart-gallery { width: 270px; height: 250px; }
-            .image-slideshow { width: 180px; height: 180px; }
+            .main-heart-gallery { width: 270px; height: 250px; }
+            .main-image-slideshow { width: 180px; height: 180px; }
             .hidden-message { font-size: 1.2rem; bottom: 50px; }
         }
 
@@ -436,8 +450,8 @@
             .controls-container { max-width: 300px; gap: 15px; }
             .music-control { max-width: 260px; padding: 15px; }
             .gallery-btn { width: 50px; height: 50px; font-size: 1.5rem; }
-            .heart-gallery { width: 220px; height: 205px; }
-            .image-slideshow { width: 150px; height: 150px; }
+            .main-heart-gallery { width: 220px; height: 205px; }
+            .main-image-slideshow { width: 150px; height: 150px; }
             .gallery-nav-btn, .close-gallery-btn { width: 40px; height: 40px; font-size: 1.1rem; }
             .hidden-message { font-size: 1.1rem; bottom: 40px; }
         }
@@ -452,6 +466,11 @@
 
     <div class="main-content" id="mainContent">
         <div class="lale-container" id="laleContainer"></div>
+        
+        <!-- Ana sayfada kalp galeri -->
+        <div class="main-heart-gallery" id="mainHeartGallery">
+            <div class="main-image-slideshow" id="mainImageSlideshow"></div>
+        </div>
     </div>
 
     <div class="controls-container" id="controlsContainer">
@@ -476,25 +495,6 @@
         </div>
     </div>
 
-    <div class="gallery-overlay" id="galleryOverlay">
-        <button class="close-gallery-btn" id="closeGalleryBtn">
-            <i class="fas fa-times"></i>
-        </button>
-        
-        <div class="heart-gallery">
-            <div class="image-slideshow" id="imageSlideshow"></div>
-        </div>
-        
-        <div class="gallery-controls">
-            <button class="gallery-nav-btn" id="prevBtn">
-                <i class="fas fa-chevron-left"></i>
-            </button>
-            <button class="gallery-nav-btn" id="nextBtn">
-                <i class="fas fa-chevron-right"></i>
-            </button>
-        </div>
-    </div>
-
     <div class="hidden-message" id="hiddenMessage">
         Geçmişteki Hatalarım Yüzünden Özür Dilerim<br>Beni Affedermisin?
     </div>
@@ -509,18 +509,17 @@
         const controlsContainer = document.getElementById('controlsContainer');
         const musicBtn = document.getElementById('musicBtn');
         const galleryBtn = document.getElementById('galleryBtn');
-        const galleryOverlay = document.getElementById('galleryOverlay');
-        const closeGalleryBtn = document.getElementById('closeGalleryBtn');
-        const imageSlideshow = document.getElementById('imageSlideshow');
-        const prevBtn = document.getElementById('prevBtn');
-        const nextBtn = document.getElementById('nextBtn');
         const hiddenMessage = document.getElementById('hiddenMessage');
         const bgMusic = document.getElementById('bgMusic');
         const progressBar = document.getElementById('progressBar');
         
+        // Ana sayfa kalp galeri elementleri
+        const mainHeartGallery = document.getElementById('mainHeartGallery');
+        const mainImageSlideshow = document.getElementById('mainImageSlideshow');
+        
         let isRaining = false;
         let currentImageIndex = 0;
-        let isGalleryOpen = false;
+        let isGalleryActive = false;
         let autoSlideInterval = null;
         
         // KENDİ RESİMLERİNİZİ BURAYA EKLEYİN
@@ -549,7 +548,7 @@
                     controlsContainer.classList.add('visible');
                 }, 3500);
                 
-                prepareGallery();
+                prepareMainGallery();
                 
                 bgMusic.addEventListener('timeupdate', updateProgressBar);
                 
@@ -607,124 +606,117 @@
             isRaining = false;
         }
 
-        function prepareGallery() {
+        function prepareMainGallery() {
             galleryImages.forEach((imageUrl, index) => {
                 const img = document.createElement('img');
                 img.src = imageUrl;
                 img.alt = `Resim ${index + 1}`;
-                img.className = 'gallery-image';
-                imageSlideshow.appendChild(img);
+                img.className = 'main-gallery-image';
+                mainImageSlideshow.appendChild(img);
             });
             
-            showImage(currentImageIndex);
+            showMainImage(currentImageIndex);
         }
 
-        function showImage(index) {
-            const images = document.querySelectorAll('.gallery-image');
+        function showMainImage(index) {
+            const images = document.querySelectorAll('.main-gallery-image');
             if (images.length === 0) return;
             
             images.forEach(img => img.classList.remove('active'));
             images[index].classList.add('active');
         }
 
+        function startMainGallery() {
+            // Kontrolleri gizle
+            controlsContainer.classList.remove('visible');
+            
+            // Kalp galerisini göster
+            mainHeartGallery.style.display = 'block';
+            
+            // İlk resmi göster
+            currentImageIndex = 0;
+            showMainImage(currentImageIndex);
+            
+            // Otomatik slaytı başlat
+            startAutoSlide();
+            
+            isGalleryActive = true;
+        }
+
+        function stopMainGallery() {
+            // Otomatik slaytı durdur
+            stopAutoSlide();
+            
+            // Kalp galerisini gizle
+            mainHeartGallery.style.display = 'none';
+            
+            // Tüm resimleri gizle
+            const images = document.querySelectorAll('.main-gallery-image');
+            images.forEach(img => img.classList.remove('active'));
+            
+            // Kontrolleri tekrar göster
+            setTimeout(() => {
+                controlsContainer.classList.add('visible');
+            }, 500);
+            
+            isGalleryActive = false;
+        }
+
         function startAutoSlide() {
             clearInterval(autoSlideInterval);
+            
             autoSlideInterval = setInterval(() => {
-                const images = document.querySelectorAll('.gallery-image');
+                const images = document.querySelectorAll('.main-gallery-image');
                 if (images.length === 0) return;
                 
+                // Mevcut resmi yavaşça kaybet
                 const currentImg = images[currentImageIndex];
                 currentImg.classList.remove('active');
                 
+                // 1.5 saniye sonra sonraki resmi göster
                 setTimeout(() => {
                     currentImageIndex = (currentImageIndex + 1) % images.length;
-                    showImage(currentImageIndex);
-                }, 800);
+                    showMainImage(currentImageIndex);
+                }, 1500); // Geçiş süresi
                 
-            }, 3000); // Her 3 saniyede bir geçiş (2 saniye görünüm + 1 saniye geçiş)
+            }, 3500); // Toplam süre: 2s görünüm + 1.5s geçiş = 3.5s
         }
 
         function stopAutoSlide() {
             clearInterval(autoSlideInterval);
         }
 
-        function nextImage() {
-            stopAutoSlide();
-            const images = document.querySelectorAll('.gallery-image');
-            if (images.length === 0) return;
-            
-            images[currentImageIndex].classList.remove('active');
-            currentImageIndex = (currentImageIndex + 1) % images.length;
-            setTimeout(() => showImage(currentImageIndex), 800);
-        }
-
-        function prevImage() {
-            stopAutoSlide();
-            const images = document.querySelectorAll('.gallery-image');
-            if (images.length === 0) return;
-            
-            images[currentImageIndex].classList.remove('active');
-            currentImageIndex = (currentImageIndex - 1 + images.length) % images.length;
-            setTimeout(() => showImage(currentImageIndex), 800);
-        }
-
+        // Galeri butonuna tıklama
         galleryBtn.addEventListener('click', (e) => {
             e.preventDefault(); // Yeni sekme açılmasını engelle
-            if (isGalleryOpen) return;
             
-            isGalleryOpen = true;
-            galleryOverlay.style.display = 'flex';
-            document.body.style.overflow = 'hidden';
-            currentImageIndex = 0;
-            showImage(currentImageIndex);
-            startAutoSlide();
-        });
-
-        closeGalleryBtn.addEventListener('click', () => {
-            isGalleryOpen = false;
-            galleryOverlay.style.display = 'none';
-            document.body.style.overflow = 'auto';
-            stopAutoSlide();
-        });
-
-        galleryOverlay.addEventListener('click', (e) => {
-            if (e.target === galleryOverlay) {
-                isGalleryOpen = false;
-                galleryOverlay.style.display = 'none';
-                document.body.style.overflow = 'auto';
-                stopAutoSlide();
+            if (isGalleryActive) {
+                stopMainGallery();
+            } else {
+                startMainGallery();
             }
         });
 
-        nextBtn.addEventListener('click', (e) => {
-            e.stopPropagation();
-            nextImage();
-        });
-
-        prevBtn.addEventListener('click', (e) => {
-            e.stopPropagation();
-            prevImage();
-        });
-
-        document.addEventListener('keydown', (e) => {
-            if (isGalleryOpen) {
-                if (e.key === 'ArrowRight') {
-                    e.preventDefault();
-                    nextImage();
-                }
-                if (e.key === 'ArrowLeft') {
-                    e.preventDefault();
-                    prevImage();
-                }
-                if (e.key === 'Escape') {
-                    e.preventDefault();
-                    isGalleryOpen = false;
-                    galleryOverlay.style.display = 'none';
-                    document.body.style.overflow = 'auto';
-                    stopAutoSlide();
-                }
+        // Ana sayfada kalp galerisine tıklayınca kapat
+        mainHeartGallery.addEventListener('click', () => {
+            if (isGalleryActive) {
+                stopMainGallery();
             }
         });
+
+        // 4 resim tamamlandıktan sonra otomatik kapat
+        let imageCount = 0;
+        const totalImages = galleryImages.length;
+        
+        function checkGalleryCompletion() {
+            imageCount++;
+            if (imageCount >= totalImages * 2) { // 2 tur dönsün
+                setTimeout(() => {
+                    stopMainGallery();
+                    imageCount = 0;
+                }, 2000);
+            }
+        }
 
         let isPlaying = false;
         
@@ -765,4 +757,3 @@
     </script>
 </body>
 </html>
-  
