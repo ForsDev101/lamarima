@@ -322,46 +322,45 @@
             border-bottom-right-radius: 0;
         }
 
-        /* Kalp şeklinde resim konteyneri - DAHA KÜÇÜK ve ORANTILI */
+        /* KARE şeklinde resim konteyneri - Resimlerin oranı için */
         .heart-image-container {
             position: absolute;
-            width: 280px;
-            height: 250px;
+            width: 240px;  /* KARE yapalım */
+            height: 240px; /* KARE yapalım */
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
             z-index: 1;
             overflow: hidden;
-        }
-
-        /* SVG mask ile kalp şekli - DAHA KÜÇÜK */
-        .heart-mask {
-            width: 100%;
-            height: 100%;
-            mask-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><path d="M50,90 C20,70 0,50 10,30 C20,10 40,10 50,20 C60,10 80,10 90,30 C100,50 80,70 50,90 Z" fill="white"/></svg>');
-            mask-repeat: no-repeat;
-            mask-size: 100% 100%;
-            mask-position: center;
-            -webkit-mask-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><path d="M50,90 C20,70 0,50 10,30 C20,10 40,10 50,20 C60,10 80,10 90,30 C100,50 80,70 50,90 Z" fill="white"/></svg>');
-            -webkit-mask-repeat: no-repeat;
-            -webkit-mask-size: 100% 100%;
-            -webkit-mask-position: center;
+            border-radius: 20px;
         }
 
         .gallery-image {
             position: absolute;
             width: 100%;
             height: 100%;
-            object-fit: cover;
+            object-fit: contain !important; /* RESİM TAM GÖRÜNSÜN */
             opacity: 0;
             transition: opacity 1.5s ease;
-            /* CSS clip-path ile kalp şekli - ORANTILI */
-            clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
-            -webkit-clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+            background: rgba(0, 0, 0, 0.3);
         }
 
         .gallery-image.active {
             opacity: 1;
+        }
+
+        /* Kalp şekli için overlay - Resimlerin üzerine gelir */
+        .heart-mask-overlay {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            pointer-events: none;
+            z-index: 3;
+            background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="240" height="240"><path d="M50,85 C30,65 10,50 20,30 C30,10 40,10 50,20 C60,10 70,10 80,30 C90,50 70,65 50,85 Z" fill="none" stroke="%23ff2d95" stroke-width="3"/></svg>') no-repeat center;
+            background-size: contain;
         }
 
         .gallery-controls {
@@ -483,7 +482,7 @@
             .heart-container { width: 300px; height: 275px; }
             .heart-outline:before, .heart-outline:after { width: 150px; height: 240px; }
             .heart-outline:before { left: 150px; }
-            .heart-image-container { width: 250px; height: 225px; }
+            .heart-image-container { width: 210px; height: 210px; }
             .hidden-message { font-size: 1.2rem; bottom: 50px; }
         }
 
@@ -495,7 +494,7 @@
             .heart-container { width: 260px; height: 240px; }
             .heart-outline:before, .heart-outline:after { width: 130px; height: 210px; }
             .heart-outline:before { left: 130px; }
-            .heart-image-container { width: 220px; height: 200px; }
+            .heart-image-container { width: 180px; height: 180px; }
             .gallery-nav-btn, .close-gallery-btn { width: 40px; height: 40px; font-size: 1.1rem; }
             .hidden-message { font-size: 1.1rem; bottom: 40px; }
         }
@@ -542,6 +541,7 @@
         <div class="heart-container">
             <div class="heart-outline"></div>
             <div class="heart-image-container" id="heartImageContainer"></div>
+            <div class="heart-mask-overlay"></div>
         </div>
         
         <div class="image-counter" id="imageCounter">1 / 3</div>
@@ -618,7 +618,7 @@
             }, 1200);
         }
 
-        function startLaleRain() {
+      function startLaleRain() {
             isRaining = true;
             const laleContainer = document.getElementById('laleContainer');
             const rainStartTime = Date.now();
@@ -675,22 +675,50 @@
                 img.src = imageUrl;
                 img.alt = `Resim ${index + 1}`;
                 img.className = 'gallery-image';
+                img.onload = function() {
+                    // Resim yüklendiğinde oranını kontrol et
+                    adjustImageAspectRatio(this);
+                };
                 heartImageContainer.appendChild(img);
-                
-                // Kalp maskesi ekle
-                img.style.clipPath = 'polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%)';
-                img.style.webkitClipPath = 'polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%)';
             });
             
             showImage(currentImageIndex);
+        }
+
+        function adjustImageAspectRatio(img) {
+            const containerWidth = 240; // Kare konteyner genişliği
+            const containerHeight = 240; // Kare konteyner yüksekliği
+            
+            const imgWidth = img.naturalWidth;
+            const imgHeight = img.naturalHeight;
+            
+            // Resim oranını koruyarak sığdır
+            const widthRatio = containerWidth / imgWidth;
+            const heightRatio = containerHeight / imgHeight;
+            const scaleRatio = Math.min(widthRatio, heightRatio);
+            
+            const newWidth = imgWidth * scaleRatio;
+            const newHeight = imgHeight * scaleRatio;
+            
+            // Orta noktaya hizala
+            img.style.width = `${newWidth}px`;
+            img.style.height = `${newHeight}px`;
+            img.style.left = `${(containerWidth - newWidth) / 2}px`;
+            img.style.top = `${(containerHeight - newHeight) / 2}px`;
+            img.style.position = 'absolute';
         }
 
         function showImage(index) {
             const images = document.querySelectorAll('.gallery-image');
             if (images.length === 0) return;
             
-            images.forEach(img => img.classList.remove('active'));
+            images.forEach(img => {
+                img.classList.remove('active');
+                img.style.display = 'none';
+            });
+            
             images[index].classList.add('active');
+            images[index].style.display = 'block';
             
             // Görsel sayacını güncelle
             imageCounter.textContent = `${index + 1} / ${images.length}`;
