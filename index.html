@@ -521,6 +521,7 @@
         let isRaining = false;
         let currentImageIndex = 0;
         let isGalleryOpen = false;
+        let autoSlideInterval = null;
         
         // KENDİ RESİMLERİNİZİ BURAYA EKLEYİN
         const galleryImages = [
@@ -622,38 +623,68 @@
             const images = document.querySelectorAll('.gallery-image');
             if (images.length === 0) return;
             
-    images.forEach(img => img.classList.remove('active'));
+            images.forEach(img => img.classList.remove('active'));
             images[index].classList.add('active');
         }
 
+        function startAutoSlide() {
+            clearInterval(autoSlideInterval);
+            autoSlideInterval = setInterval(() => {
+                const images = document.querySelectorAll('.gallery-image');
+                if (images.length === 0) return;
+                
+                const currentImg = images[currentImageIndex];
+                currentImg.classList.remove('active');
+                
+                setTimeout(() => {
+                    currentImageIndex = (currentImageIndex + 1) % images.length;
+                    showImage(currentImageIndex);
+                }, 800);
+                
+            }, 3000); // Her 3 saniyede bir geçiş (2 saniye görünüm + 1 saniye geçiş)
+        }
+
+        function stopAutoSlide() {
+            clearInterval(autoSlideInterval);
+        }
+
         function nextImage() {
+            stopAutoSlide();
             const images = document.querySelectorAll('.gallery-image');
             if (images.length === 0) return;
             
+            images[currentImageIndex].classList.remove('active');
             currentImageIndex = (currentImageIndex + 1) % images.length;
-            showImage(currentImageIndex);
+            setTimeout(() => showImage(currentImageIndex), 800);
         }
 
         function prevImage() {
+            stopAutoSlide();
             const images = document.querySelectorAll('.gallery-image');
             if (images.length === 0) return;
             
+            images[currentImageIndex].classList.remove('active');
             currentImageIndex = (currentImageIndex - 1 + images.length) % images.length;
-            showImage(currentImageIndex);
+            setTimeout(() => showImage(currentImageIndex), 800);
         }
 
-        galleryBtn.addEventListener('click', () => {
+        galleryBtn.addEventListener('click', (e) => {
+            e.preventDefault(); // Yeni sekme açılmasını engelle
             if (isGalleryOpen) return;
             
             isGalleryOpen = true;
             galleryOverlay.style.display = 'flex';
             document.body.style.overflow = 'hidden';
+            currentImageIndex = 0;
+            showImage(currentImageIndex);
+            startAutoSlide();
         });
 
         closeGalleryBtn.addEventListener('click', () => {
             isGalleryOpen = false;
             galleryOverlay.style.display = 'none';
             document.body.style.overflow = 'auto';
+            stopAutoSlide();
         });
 
         galleryOverlay.addEventListener('click', (e) => {
@@ -661,20 +692,36 @@
                 isGalleryOpen = false;
                 galleryOverlay.style.display = 'none';
                 document.body.style.overflow = 'auto';
+                stopAutoSlide();
             }
         });
 
-        nextBtn.addEventListener('click', nextImage);
-        prevBtn.addEventListener('click', prevImage);
+        nextBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            nextImage();
+        });
+
+        prevBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            prevImage();
+        });
 
         document.addEventListener('keydown', (e) => {
             if (isGalleryOpen) {
-                if (e.key === 'ArrowRight') nextImage();
-                if (e.key === 'ArrowLeft') prevImage();
+                if (e.key === 'ArrowRight') {
+                    e.preventDefault();
+                    nextImage();
+                }
+                if (e.key === 'ArrowLeft') {
+                    e.preventDefault();
+                    prevImage();
+                }
                 if (e.key === 'Escape') {
+                    e.preventDefault();
                     isGalleryOpen = false;
                     galleryOverlay.style.display = 'none';
                     document.body.style.overflow = 'auto';
+                    stopAutoSlide();
                 }
             }
         });
@@ -718,3 +765,4 @@
     </script>
 </body>
 </html>
+  
