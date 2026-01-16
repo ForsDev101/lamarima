@@ -240,10 +240,10 @@
             flex-direction: column;
         }
 
-        /* Sadece kalp şeklinde resimler */
+        /* TAM KALP şeklinde resimler */
         .heart-image-container {
             position: relative;
-            width: 300px;
+            width: 320px;
             height: 300px;
             display: flex;
             justify-content: center;
@@ -257,10 +257,44 @@
             object-fit: cover;
             opacity: 0;
             transition: opacity 1.5s ease;
-            /* Kalp şekli - clip-path ile */
-            clip-path: path('M150,300 C60,225 0,150 60,75 C120,0 180,0 240,75 C300,150 240,225 150,300 Z');
-            -webkit-clip-path: path('M150,300 C60,225 0,150 60,75 C120,0 180,0 240,75 C300,150 240,225 150,300 Z');
-            border: none; /* Çerçeve yok */
+            /* TAM KALP şekli */
+            clip-path: polygon(
+                50% 15%,
+                70% 5%,
+                85% 15%,
+                95% 35%,
+                100% 50%,
+                95% 65%,
+                85% 85%,
+                70% 95%,
+                50% 100%,
+                30% 95%,
+                15% 85%,
+                5% 65%,
+                0% 50%,
+                5% 35%,
+                15% 15%,
+                30% 5%
+            );
+            -webkit-clip-path: polygon(
+                50% 15%,
+                70% 5%,
+                85% 15%,
+                95% 35%,
+                100% 50%,
+                95% 65%,
+                85% 85%,
+                70% 95%,
+                50% 100%,
+                30% 95%,
+                15% 85%,
+                5% 65%,
+                0% 50%,
+                5% 35%,
+                15% 15%,
+                30% 5%
+            );
+            border: none;
         }
 
         .gallery-image.active {
@@ -383,7 +417,7 @@
             .music-title { font-size: 1.2rem; }
             .music-btn { width: 60px; height: 60px; font-size: 1.4rem; }
             .gallery-btn { width: 55px; height: 55px; font-size: 1.6rem; }
-            .heart-image-container { width: 250px; height: 250px; }
+            .heart-image-container { width: 280px; height: 260px; }
             .hidden-message { font-size: 1.2rem; bottom: 50px; }
         }
 
@@ -392,7 +426,7 @@
             .controls-container { max-width: 300px; gap: 15px; }
             .music-control { max-width: 260px; padding: 15px; }
             .gallery-btn { width: 50px; height: 50px; font-size: 1.5rem; }
-            .heart-image-container { width: 200px; height: 200px; }
+            .heart-image-container { width: 240px; height: 220px; }
             .gallery-nav-btn, .close-gallery-btn { width: 40px; height: 40px; font-size: 1.1rem; }
             .hidden-message { font-size: 1.1rem; bottom: 40px; }
         }
@@ -584,7 +618,7 @@
             currentImageIndex = 0;
             showImage(currentImageIndex);
             
-                      // Otomatik slaytı başlat
+            // Otomatik slaytı başlat
             startAutoSlide();
         });
 
@@ -669,11 +703,6 @@
             musicBtn.classList.remove('playing');
             progressBar.style.width = '0%';
             isPlaying = false;
-        });
-
-        // Hata yakalama
-        window.addEventListener('error', function(e) {
-            console.error('Hata:', e.message);
         });
     </script>
 </body>
