@@ -129,7 +129,7 @@
             opacity: 0.7;
         }
 
-        /* Lale emojileri - TAM EKRAN AKIŞI */
+        /* Lale emojileri */
         .lale-container {
             position: absolute;
             width: 100%;
@@ -148,11 +148,8 @@
             text-shadow: 0 0 15px var(--pink-glow);
             filter: drop-shadow(0 0 5px rgba(255, 45, 149, 0.5));
             will-change: transform, opacity;
-            /* EN ÜSTTEN BAŞLAYACAK */
             top: -100px;
-            /* YATAYDA RASTGELE */
             left: calc(var(--lale-left) * 1%);
-            /* ANİMASYON */
             animation: laleFall var(--duration) linear forwards;
             opacity: 0;
         }
@@ -162,20 +159,16 @@
                 transform: translateY(0) rotate(0deg) scale(var(--start-scale));
                 opacity: 0;
             }
-            10% {
-                opacity: var(--max-opacity);
-            }
-            90% {
-                opacity: var(--max-opacity);
-            }
+            10% { opacity: var(--max-opacity); }
+            90% { opacity: var(--max-opacity); }
             100% {
                 transform: translateY(calc(100vh + 100px)) rotate(var(--rotation)) scale(var(--end-scale));
                 opacity: 0;
             }
         }
 
-        /* Merkezi müzik kontrolü */
-        .music-center-control {
+        /* MÜZİK VE GALERİ KONTROL KONTEYNIRI */
+        .controls-container {
             position: fixed;
             top: 50%;
             left: 50%;
@@ -184,43 +177,41 @@
             opacity: 0;
             transition: all 1s cubic-bezier(0.4, 0, 0.2, 1);
             width: 90%;
-            max-width: 320px;
+            max-width: 400px;
             text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
             pointer-events: none;
         }
 
-        .music-center-control.visible {
+        .controls-container.visible {
             opacity: 1;
-            transform: translate(-50%, -50%) scale(1);
             pointer-events: auto;
         }
 
-        .music-center-container {
+        /* Müzik kontrolü */
+        .music-control {
             background: var(--glass-bg);
             backdrop-filter: blur(20px) saturate(180%);
             -webkit-backdrop-filter: blur(20px) saturate(180%);
             border: 1px solid var(--glass-border);
             border-radius: 24px;
-            padding: 30px;
+            padding: 25px;
             box-shadow: 
                 0 20px 40px rgba(0, 0, 0, 0.5),
                 0 0 0 1px rgba(255, 45, 149, 0.1),
                 inset 0 1px 0 rgba(255, 255, 255, 0.1);
-            transition: all 0.3s ease;
-        }
-
-        .music-center-container:hover {
-            transform: translateY(-2px);
-            box-shadow: 
-                0 25px 50px rgba(0, 0, 0, 0.6),
-                0 0 0 1px rgba(255, 45, 149, 0.2);
+            width: 100%;
+            max-width: 320px;
         }
 
         .music-title {
             font-family: 'Montserrat', sans-serif;
             font-size: 1.4rem;
             font-weight: 600;
-            margin-bottom: 20px;
+            margin-bottom: 15px;
             color: var(--text-white);
             letter-spacing: 1px;
         }
@@ -228,7 +219,7 @@
         .song-info {
             font-size: 1rem;
             color: rgba(255, 255, 255, 0.8);
-            margin-bottom: 25px;
+            margin-bottom: 20px;
             font-weight: 300;
             line-height: 1.5;
         }
@@ -238,32 +229,30 @@
             margin-right: 8px;
         }
 
-        .music-center-btn {
-            width: 80px;
-            height: 80px;
+        .music-btn {
+            width: 70px;
+            height: 70px;
             background: linear-gradient(135deg, var(--neon-pink), var(--soft-pink));
             border: none;
             border-radius: 50%;
             color: white;
-            font-size: 1.8rem;
+            font-size: 1.6rem;
             cursor: pointer;
             display: flex;
             align-items: center;
             justify-content: center;
-            margin: 0 auto 25px;
+            margin: 0 auto 20px;
             transition: all 0.3s ease;
             box-shadow: 
                 0 10px 20px rgba(255, 45, 149, 0.3),
                 0 0 30px rgba(255, 45, 149, 0.2);
-            position: relative;
-            overflow: hidden;
         }
 
-        .music-center-btn:active {
+        .music-btn:active {
             transform: scale(0.95);
         }
 
-        .music-center-btn.playing {
+        .music-btn.playing {
             animation: pulseGlow 2s infinite;
         }
 
@@ -280,7 +269,210 @@
             }
         }
 
-        /* GİZLİ YAZI - BAŞLANGIÇTA GÖRÜNMEYECEK */
+        /* GALERİ BUTONU - MİNECRAFT STİLİ */
+        .gallery-btn-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .gallery-btn {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, #222, #000);
+            border: 3px solid var(--neon-pink);
+            border-radius: 12px;
+            color: var(--neon-pink);
+            font-size: 1.8rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s ease;
+            position: relative;
+            overflow: hidden;
+            /* Minecraft pixel efekti */
+            box-shadow: 
+                inset 0 -3px 0 rgba(0, 0, 0, 0.5),
+                inset 0 3px 0 rgba(255, 255, 255, 0.1),
+                0 5px 10px rgba(0, 0, 0, 0.5);
+        }
+
+        .gallery-btn:active {
+            transform: translateY(3px);
+            box-shadow: 
+                inset 0 -1px 0 rgba(0, 0, 0, 0.5),
+                inset 0 1px 0 rgba(255, 255, 255, 0.1),
+                0 2px 5px rgba(0, 0, 0, 0.3);
+        }
+
+        .gallery-btn:hover {
+            background: linear-gradient(135deg, #333, #111);
+            border-color: var(--soft-pink);
+            color: var(--soft-pink);
+        }
+
+        .gallery-label {
+            font-size: 0.9rem;
+            color: rgba(255, 255, 255, 0.8);
+            font-weight: 500;
+            text-shadow: 0 0 5px rgba(255, 45, 149, 0.5);
+        }
+
+        /* KALP ŞEKLİNDE GALERİ */
+        .gallery-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.85);
+            z-index: 1000;
+            display: none;
+            justify-content: center;
+            align-items: center;
+            backdrop-filter: blur(10px);
+        }
+
+        .heart-gallery {
+            position: relative;
+            width: 300px;
+            height: 280px;
+            transform: rotate(-45deg);
+            animation: heartbeat 2s infinite;
+        }
+
+        @keyframes heartbeat {
+            0%, 100% { transform: rotate(-45deg) scale(1); }
+            50% { transform: rotate(-45deg) scale(1.05); }
+        }
+
+        .heart-gallery:before,
+        .heart-gallery:after {
+            content: '';
+            position: absolute;
+            width: 150px;
+            height: 240px;
+            background: rgba(255, 45, 149, 0.1);
+            border: 3px solid var(--neon-pink);
+            border-radius: 75px 75px 0 0;
+            backdrop-filter: blur(20px);
+        }
+
+        .heart-gallery:before {
+            left: 150px;
+            transform: rotate(-45deg);
+            transform-origin: 0 100%;
+        }
+
+        .heart-gallery:after {
+            left: 0;
+            transform: rotate(45deg);
+            transform-origin: 100% 100%;
+        }
+
+        /* RESİM SLIDESHOW */
+        .image-slideshow {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) rotate(45deg);
+            width: 200px;
+            height: 200px;
+            z-index: 1001;
+        }
+
+        .gallery-image {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 15px;
+            border: 2px solid var(--neon-pink);
+            opacity: 0;
+            transition: opacity 0.8s ease;
+            box-shadow: 0 0 30px rgba(255, 45, 149, 0.3);
+        }
+
+        .gallery-image.active {
+            opacity: 1;
+        }
+
+        /* GALERİ KONTROL BUTONLARI */
+        .gallery-controls {
+            position: absolute;
+            bottom: -60px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 15px;
+            z-index: 1002;
+        }
+
+        .gallery-nav-btn {
+            width: 40px;
+            height: 40px;
+            background: rgba(255, 45, 149, 0.2);
+            border: 2px solid var(--neon-pink);
+            border-radius: 50%;
+            color: white;
+            font-size: 1.2rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+
+        .gallery-nav-btn:hover {
+            background: rgba(255, 45, 149, 0.4);
+            transform: scale(1.1);
+        }
+
+        .close-gallery-btn {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            width: 40px;
+            height: 40px;
+            background: rgba(255, 45, 149, 0.2);
+            border: 2px solid var(--neon-pink);
+            border-radius: 50%;
+            color: white;
+            font-size: 1.2rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1002;
+            transition: all 0.3s ease;
+        }
+
+        .close-gallery-btn:hover {
+            background: rgba(255, 45, 149, 0.4);
+            transform: rotate(90deg);
+        }
+
+        /* Progress bar */
+        .progress-container {
+            width: 100%;
+            height: 4px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 2px;
+            margin-top: 15px;
+            overflow: hidden;
+        }
+
+        .progress-bar {
+            height: 100%;
+            background: linear-gradient(90deg, var(--neon-pink), var(--soft-pink));
+            width: 0%;
+            transition: width 0.1s linear;
+            border-radius: 2px;
+        }
+
+        /* Gizli mesaj */
         .hidden-message {
             position: fixed;
             bottom: 50px;
@@ -315,111 +507,78 @@
             background-clip: text;
         }
 
-        /* Progress bar */
-        .progress-container {
-            width: 100%;
-            height: 4px;
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 2px;
-            margin-top: 20px;
-            overflow: hidden;
-        }
-
-        .progress-bar {
-            height: 100%;
-            background: linear-gradient(90deg, var(--neon-pink), var(--soft-pink));
-            width: 0%;
-            transition: width 0.1s linear;
-            border-radius: 2px;
-        }
-
         /* Mobil optimizasyon */
         @media (max-width: 768px) {
-            .initial-text {
-                font-size: 1.5rem;
+            .controls-container {
+                max-width: 350px;
             }
             
-            .music-center-control {
-                width: 85%;
+            .music-control {
+                padding: 20px;
                 max-width: 280px;
-            }
-            
-            .music-center-container {
-                padding: 25px 20px;
             }
             
             .music-title {
                 font-size: 1.2rem;
             }
             
-            .song-info {
-                font-size: 0.9rem;
+            .music-btn {
+                width: 60px;
+                height: 60px;
+                font-size: 1.4rem;
             }
             
-            .music-center-btn {
-                width: 70px;
-                height: 70px;
-                font-size: 1.5rem;
+            .gallery-btn {
+                width: 55px;
+                height: 55px;
+                font-size: 1.6rem;
+            }
+            
+            .heart-gallery {
+                width: 250px;
+                height: 230px;
+            }
+            
+            .image-slideshow {
+                width: 160px;
+                height: 160px;
             }
             
             .hidden-message {
                 font-size: 1.1rem;
                 padding: 15px;
-                bottom: 40px;
-            }
-            
-            .lale {
-                font-size: 1.8rem;
             }
         }
 
         @media (max-width: 480px) {
-            .initial-text {
-                font-size: 1.3rem;
-                letter-spacing: 1px;
+            .controls-container {
+                max-width: 300px;
             }
             
-            .initial-logo {
-                font-size: 2rem;
-            }
-            
-            .music-center-control {
-                width: 90%;
+            .music-control {
+                padding: 15px;
                 max-width: 260px;
             }
             
-            .music-center-container {
-                padding: 20px 15px;
-                border-radius: 20px;
+            .gallery-btn {
+                width: 50px;
+                height: 50px;
+                font-size: 1.5rem;
             }
             
-            .hidden-message {
-                font-size: 1rem;
-                bottom: 30px;
-            }
-        }
-
-        @media (max-height: 600px) and (orientation: landscape) {
-            .initial-screen {
-                padding: 10px;
+            .heart-gallery {
+                width: 200px;
+                height: 185px;
             }
             
-            .initial-logo {
-                font-size: 1.8rem;
-                margin-bottom: 15px;
+            .image-slideshow {
+                width: 130px;
+                height: 130px;
             }
             
-            .initial-text {
-                font-size: 1.2rem;
-                margin-bottom: 20px;
-            }
-            
-            .music-center-control {
-                max-width: 250px;
-            }
-            
-            .hidden-message {
-                bottom: 20px;
+            .gallery-nav-btn {
+                width: 35px;
+                height: 35px;
                 font-size: 1rem;
             }
         }
@@ -429,8 +588,8 @@
     <!-- Başlangıç ekranı -->
     <div class="initial-screen" id="initialScreen">
         <div class="initial-logo">✧</div>
-        <div class="initial-text">Ekrana Tıklasana Lamarcım</div>
-        <div class="tap-instruction">Sürpriz Seni Bekliyor</div>
+        <div class="initial-text">EKRNA TIKLAYINIZ</div>
+        <div class="tap-instruction">Tıklayarak deneyimi başlat</div>
     </div>
 
     <!-- Ana içerik -->
@@ -441,23 +600,54 @@
         <div class="lale-container" id="laleContainer"></div>
     </div>
 
-    <!-- Merkezi müzik kontrolü -->
-    <div class="music-center-control" id="musicControl">
-        <div class="music-center-container">
-            <h2 class="music-title">🙃</h2>
+    <!-- Müzik ve Galeri Kontrolleri -->
+    <div class="controls-container" id="controlsContainer">
+        <!-- Müzik Kontrolü -->
+        <div class="music-control">
+            <h2 class="music-title">MÜZİK</h2>
             <div class="song-info">
                 <i class="fas fa-music"></i>Şebnem Ferah - Od
             </div>
-            <button class="music-center-btn" id="musicBtn">
+            <button class="music-btn" id="musicBtn">
                 <i class="fas fa-play"></i>
             </button>
             <div class="progress-container">
                 <div class="progress-bar" id="progressBar"></div>
             </div>
         </div>
+
+        <!-- Galeri Butonu -->
+        <div class="gallery-btn-container">
+            <button class="gallery-btn" id="galleryBtn">
+                <i class="fas fa-images"></i>
+            </button>
+            <div class="gallery-label">Galeri</div>
+        </div>
     </div>
 
-    <!-- Gizli mesaj - BAŞLANGIÇTA GÖRÜNMEZ -->
+    <!-- Kalp Şeklinde Galeri -->
+    <div class="gallery-overlay" id="galleryOverlay">
+        <button class="close-gallery-btn" id="closeGalleryBtn">
+            <i class="fas fa-times"></i>
+        </button>
+        
+        <div class="heart-gallery">
+            <div class="image-slideshow" id="imageSlideshow">
+                <!-- Resimler buraya eklenecek -->
+            </div>
+        </div>
+        
+        <div class="gallery-controls">
+            <button class="gallery-nav-btn" id="prevBtn">
+                <i class="fas fa-chevron-left"></i>
+            </button>
+            <button class="gallery-nav-btn" id="nextBtn">
+                <i class="fas fa-chevron-right"></i>
+            </button>
+        </div>
+    </div>
+
+    <!-- Gizli mesaj -->
     <div class="hidden-message" id="hiddenMessage">
         Geçmişteki Hatalarım Yüzünden Özür Dilerim<br>Beni Affedermisin?
     </div>
@@ -469,66 +659,38 @@
     </audio>
 
     <script>
-        // DOM elementleri
+         // DOM elementleri
         const initialScreen = document.getElementById('initialScreen');
         const mainContent = document.getElementById('mainContent');
-        const musicControl = document.getElementById('musicControl');
+        const controlsContainer = document.getElementById('controlsContainer');
         const musicBtn = document.getElementById('musicBtn');
+        const galleryBtn = document.getElementById('galleryBtn');
+        const galleryOverlay = document.getElementById('galleryOverlay');
+        const closeGalleryBtn = document.getElementById('closeGalleryBtn');
+        const imageSlideshow = document.getElementById('imageSlideshow');
+        const prevBtn = document.getElementById('prevBtn');
+        const nextBtn = document.getElementById('nextBtn');
         const hiddenMessage = document.getElementById('hiddenMessage');
         const bgMusic = document.getElementById('bgMusic');
         const progressBar = document.getElementById('progressBar');
-        const particlesContainer = document.getElementById('particles');
-        const laleContainer = document.getElementById('laleContainer');
         
         // Değişkenler
         let isRaining = false;
-        let rainInterval;
-        let laleCreationInterval;
         let particleCount = 30;
-        let particles = [];
-        let laleRainStartTime = 0;
+        let currentImageIndex = 0;
         
+        // ÖRNEK RESİM URL'LERİ (kendi resimlerinizle değiştirin)
+        const galleryImages = [
+            'https://images.unsplash.com/photo-1518709268805-4e9042af2176?w=400&h=400&fit=crop', // Örnek 1
+            'https://images.unsplash.com/photo-1519681393784-d120267933ba?w=400&h=400&fit=crop', // Örnek 2
+            'https://images.unsplash.com/photo-1518834103328-93d45986dce1?w-400&h=400&fit=crop', // Örnek 3
+            'https://images.unsplash.com/photo-1519681393784-d120267933ba?w=400&h=400&fit=crop', // Örnek 4
+        ];
+
         // İlk ekrana tıklama
         initialScreen.addEventListener('click', startExperience);
         initialScreen.addEventListener('touchstart', startExperience, { passive: true });
-        
-        // Partikül sistemi oluştur
-        function createParticles() {
-            for (let i = 0; i < particleCount; i++) {
-                const particle = document.createElement('div');
-                particle.className = 'particle';
-                
-                particle.style.left = `${Math.random() * 100}vw`;
-                particle.style.top = `${Math.random() * 100}vh`;
-                
-                const size = 2 + Math.random() * 4;
-                particle.style.width = `${size}px`;
-                particle.style.height = `${size}px`;
-                particle.style.opacity = 0.3 + Math.random() * 0.4;
-                
-                const duration = 3 + Math.random() * 5;
-                const delay = Math.random() * 2;
-                
-                // Rastgele float animasyonu
-                const keyframesName = `float-${i}`;
-                const style = document.createElement('style');
-                style.innerHTML = `
-                    @keyframes ${keyframesName} {
-                        0%, 100% { transform: translate(0, 0); }
-                        25% { transform: translate(${Math.random() * 20 - 10}px, ${Math.random() * 20 - 10}px); }
-                        50% { transform: translate(${Math.random() * 20 - 10}px, ${Math.random() * 20 - 10}px); }
-                        75% { transform: translate(${Math.random() * 20 - 10}px, ${Math.random() * 20 - 10}px); }
-                    }
-                `;
-                document.head.appendChild(style);
-                
-                particle.style.animation = `${keyframesName} ${duration}s ease-in-out ${delay}s infinite`;
-                
-                particlesContainer.appendChild(particle);
-                particles.push({element: particle, style: style});
-            }
-        }
-        
+
         // Deneyimi başlat
         function startExperience(e) {
             if (e.type === 'touchstart') e.preventDefault();
@@ -545,47 +707,61 @@
                 // 3 saniye sonra yağmuru durdur
                 setTimeout(stopLaleRain, 3000);
                 
-                // Müzik kontrolünü göster
+                // Kontrolleri göster
                 setTimeout(() => {
-                    musicControl.classList.add('visible');
+                    controlsContainer.classList.add('visible');
                 }, 3500);
+                
+                // Galeriyi hazırla
+                prepareGallery();
                 
                 bgMusic.addEventListener('timeupdate', updateProgressBar);
                 
             }, 1200);
         }
-        
-        // LALE YAĞMURU - TAM EKRAN AKIŞI
+
+        // Partikül sistemi oluştur
+        function createParticles() {
+            const particlesContainer = document.getElementById('particles');
+            for (let i = 0; i < particleCount; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                particle.style.left = `${Math.random() * 100}vw`;
+                particle.style.top = `${Math.random() * 100}vh`;
+                particlesContainer.appendChild(particle);
+            }
+        }
+
+        // LALE YAĞMURU
         function startLaleRain() {
             isRaining = true;
-            laleRainStartTime = Date.now();
+            const laleContainer = document.getElementById('laleContainer');
+            const rainStartTime = Date.now();
             
-            // Her 100ms'de bir yeni lale oluştur
-            laleCreationInterval = setInterval(createLale, 100);
-            
-            // 3 saniye sonra dur
-            setTimeout(() => {
-                clearInterval(laleCreationInterval);
-                isRaining = false;
-            }, 3000);
+            const createLaleInterval = setInterval(() => {
+                createSingleLale();
+                
+                // 3 saniye sonra dur
+                if (Date.now() - rainStartTime > 3000) {
+                    clearInterval(createLaleInterval);
+                    isRaining = false;
+                }
+            }, 100);
         }
-        
-        // Tek lale oluşturma
-        function createLale() {
-            // Yeni lale elementi
+
+        function createSingleLale() {
+            const laleContainer = document.getElementById('laleContainer');
             const lale = document.createElement('div');
             lale.className = 'lale';
-            lale.innerHTML = '🌷';
+            lale.innerHTML = '🌸';
             
-            // RASTGELE ÖZELLİKLER
-            const leftPos = Math.random() * 100; // 0-100% arası
-            const duration = 2 + Math.random() * 2; // 2-4 saniye
-            const startScale = 0.7 + Math.random() * 0.3; // 0.7-1.0
-            const endScale = 0.9 + Math.random() * 0.3; // 0.9-1.2
-            const rotation = (Math.random() > 0.5 ? 1 : -1) * (360 + Math.random() * 360); // ±360-720°
-            const maxOpacity = 0.6 + Math.random() * 0.4; // 0.6-1.0
+            const leftPos = Math.random() * 100;
+            const duration = 2 + Math.random() * 2;
+            const startScale = 0.7 + Math.random() * 0.3;
+            const endScale = 0.9 + Math.random() * 0.3;
+            const rotation = (Math.random() > 0.5 ? 1 : -1) * (360 + Math.random() * 360);
+            const maxOpacity = 0.6 + Math.random() * 0.4;
             
-            // CSS değişkenleri olarak ayarla
             lale.style.setProperty('--lale-left', leftPos);
             lale.style.setProperty('--duration', duration + 's');
             lale.style.setProperty('--start-scale', startScale);
@@ -593,46 +769,78 @@
             lale.style.setProperty('--rotation', rotation + 'deg');
             lale.style.setProperty('--max-opacity', maxOpacity);
             
-            // Rastgele boyut
-            const size = 25 + Math.random() * 35;
-            lale.style.fontSize = `${size}px`;
-            
-            // Laleyi ekle
             laleContainer.appendChild(lale);
             
-            // Animasyon bitince temizle
             setTimeout(() => {
-                if (lale.parentNode) {
-                    lale.remove();
-                }
+                if (lale.parentNode) lale.remove();
             }, duration * 1000);
         }
-        
-        // Lale yağmurunu durdur
+
         function stopLaleRain() {
             isRaining = false;
-            if (laleCreationInterval) {
-                clearInterval(laleCreationInterval);
-            }
-            
-            
-            // Kalan laleleri yavaşça temizle
-            setTimeout(() => {
-                const remainingLales = laleContainer.querySelectorAll('.lale');
-                remainingLales.forEach(lale => {
-                    lale.style.transition = 'opacity 1s ease';
-                    lale.style.opacity = '0';
-                    
-                    setTimeout(() => {
-                        if (lale.parentNode) {
-                            lale.remove();
-                        }
-                    }, 1000);
-                });
-            }, 1000);
         }
-        
-        // MÜZİK KONTROLÜ - TEK TIKLAMA
+
+        // GALERİ İŞLEMLERİ
+        function prepareGallery() {
+            // Galeri resimlerini yükle
+            galleryImages.forEach((imageUrl, index) => {
+                const img = document.createElement('img');
+                img.src = imageUrl;
+                img.alt = `Resim ${index + 1}`;
+                img.className = 'gallery-image';
+                img.loading = 'lazy';
+                imageSlideshow.appendChild(img);
+            });
+            
+            // İlk resmi göster
+            showImage(currentImageIndex);
+        }
+
+        function showImage(index) {
+            const images = document.querySelectorAll('.gallery-image');
+            images.forEach(img => img.classList.remove('active'));
+            if (images[index]) {
+                images[index].classList.add('active');
+            }
+        }
+
+        function nextImage() {
+            currentImageIndex = (currentImageIndex + 1) % galleryImages.length;
+            showImage(currentImageIndex);
+        }
+
+        function prevImage() {
+            currentImageIndex = (currentImageIndex - 1 + galleryImages.length) % galleryImages.length;
+            showImage(currentImageIndex);
+        }
+
+        // GALERİ BUTON EVENT'LERİ
+        galleryBtn.addEventListener('click', () => {
+            galleryOverlay.style.display = 'flex';
+            document.body.style.overflow = 'hidden';
+        });
+
+        closeGalleryBtn.addEventListener('click', () => {
+            galleryOverlay.style.display = 'none';
+            document.body.style.overflow = 'auto';
+        });
+
+        nextBtn.addEventListener('click', nextImage);
+        prevBtn.addEventListener('click', prevImage);
+
+        // Klavye kontrolleri
+        document.addEventListener('keydown', (e) => {
+            if (galleryOverlay.style.display === 'flex') {
+                if (e.key === 'ArrowRight') nextImage();
+                if (e.key === 'ArrowLeft') prevImage();
+                if (e.key === 'Escape') {
+                    galleryOverlay.style.display = 'none';
+                    document.body.style.overflow = 'auto';
+                }
+            }
+        });
+
+        // MÜZİK KONTROLÜ
         let isPlaying = false;
         
         musicBtn.addEventListener('click', toggleMusic);
@@ -648,34 +856,31 @@
                     musicBtn.classList.add('playing');
                     isPlaying = true;
                     
-                    // MÜZİK BAŞLADIKTAN SONRA YAZI YAVAŞÇA GELSİN
+                    // Yavaşça yazıyı göster
                     setTimeout(() => {
                         hiddenMessage.classList.add('visible');
-                    }, 500); // 0.5 saniye sonra başla
+                    }, 500);
                 }).catch(error => {
                     console.error('Müzik çalınamadı:', error);
                     musicBtn.innerHTML = '<i class="fas fa-exclamation-triangle"></i>';
-                    musicBtn.style.background = 'linear-gradient(135deg, #ff4444, #ff6666)';
                 });
             } else {
                 bgMusic.pause();
                 musicBtn.innerHTML = '<i class="fas fa-play"></i>';
                 musicBtn.classList.remove('playing');
                 isPlaying = false;
-                
-                // Müzik durunca yazı yavaşça kaybolsun
                 hiddenMessage.classList.remove('visible');
             }
         }
-        
-        // Progress bar güncelleme
+
+        // Progress bar
         function updateProgressBar() {
             if (bgMusic.duration && !isNaN(bgMusic.duration)) {
                 const progressPercent = (bgMusic.currentTime / bgMusic.duration) * 100;
                 progressBar.style.width = `${progressPercent}%`;
             }
         }
-        
+
         // Müzik bitince
         bgMusic.addEventListener('ended', () => {
             musicBtn.innerHTML = '<i class="fas fa-play"></i>';
@@ -683,37 +888,7 @@
             progressBar.style.width = '0%';
             isPlaying = false;
         });
-        
-        // Müzik yükleme hatası
-        bgMusic.addEventListener('error', (e) => {
-            console.error('Audio hatası:', e);
-            musicBtn.innerHTML = '<i class="fas fa-exclamation-triangle"></i>';
-            musicBtn.style.background = 'linear-gradient(135deg, #ff4444, #ff6666)';
-            musicBtn.title = 'Müzik dosyası yüklenemedi';
-        });
-        
-        // Müzik yüklendiğinde
-        bgMusic.addEventListener('canplay', () => {
-            console.log('Müzik dosyası hazır');
-        });
-        
-        // Sayfa kapatılırken temizlik
-        window.addEventListener('beforeunload', () => {
-            if (!bgMusic.paused) {
-                bgMusic.pause();
-            }
-            
-            // Partikül stillerini temizle
-            particles.forEach(p => {
-                if (p.style && p.style.parentNode) {
-                    p.style.remove();
-                }
-            });
-        });
-        
-        // GitHub dosya kontrolü
-        console.log("Site yüklendi - Müzik kontrolü yapılıyor...");
-        
+
         // Müzik dosyası kontrolü
         fetch('Sebnem-Ferah-Od.mp3')
             .then(response => {
@@ -726,6 +901,3 @@
             .catch(error => {
                 console.error('❌ Müzik dosyası kontrol hatası:', error);
             });
-    </script>
-</body>
-</html>
