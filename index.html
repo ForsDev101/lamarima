@@ -285,26 +285,26 @@
             align-items: center;
         }
 
-        .heart {
+        .heart-outline {
             position: relative;
             width: 380px;
             height: 340px;
             filter: drop-shadow(0 0 20px rgba(255, 45, 149, 0.5));
         }
 
-        .heart:before,
-        .heart:after {
+        .heart-outline:before,
+        .heart-outline:after {
             content: '';
             position: absolute;
             width: 190px;
             height: 300px;
-            background: linear-gradient(45deg, rgba(255, 45, 149, 0.1), rgba(255, 77, 166, 0.05));
+            background: transparent;
             border: 4px solid var(--neon-pink);
             border-radius: 100px 100px 0 0;
-            box-shadow: inset 0 0 30px rgba(255, 45, 149, 0.2);
+            box-shadow: 0 0 30px rgba(255, 45, 149, 0.5);
         }
 
-        .heart:before {
+        .heart-outline:before {
             left: 190px;
             transform: rotate(-45deg);
             transform-origin: 0 100%;
@@ -312,7 +312,7 @@
             border-bottom-left-radius: 0;
         }
 
-        .heart:after {
+        .heart-outline:after {
             left: 0;
             transform: rotate(45deg);
             transform-origin: 100% 100%;
@@ -320,6 +320,7 @@
             border-bottom-right-radius: 0;
         }
 
+        /* Kalp şeklinde resim konteyneri */
         .heart-image-container {
             position: absolute;
             width: 220px;
@@ -329,9 +330,15 @@
             transform: translate(-50%, -50%);
             z-index: 10;
             overflow: hidden;
-            border-radius: 15px;
-            border: 3px solid var(--neon-pink);
-            background: rgba(0, 0, 0, 0.7);
+            -webkit-mask-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><path d="M50,85 C30,65 10,50 20,30 C30,10 40,10 50,20 C60,10 70,10 80,30 C90,50 70,65 50,85 Z" fill="white"/></svg>');
+            -webkit-mask-repeat: no-repeat;
+            -webkit-mask-size: contain;
+            -webkit-mask-position: center;
+            mask-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><path d="M50,85 C30,65 10,50 20,30 C30,10 40,10 50,20 C60,10 70,10 80,30 C90,50 70,65 50,85 Z" fill="white"/></svg>');
+            mask-repeat: no-repeat;
+            mask-size: contain;
+            mask-position: center;
+            background: rgba(0, 0, 0, 0.3);
         }
 
         .gallery-image {
@@ -341,6 +348,7 @@
             object-fit: cover;
             opacity: 0;
             transition: opacity 1.5s ease;
+            clip-path: path('M50,85 C30,65 10,50 20,30 C30,10 40,10 50,20 C60,10 70,10 80,30 C90,50 70,65 50,85 Z');
         }
 
         .gallery-image.active {
@@ -457,6 +465,12 @@
             border: 1px solid rgba(255, 45, 149, 0.3);
         }
 
+        /* Kalp şekli için alternatif CSS (daha iyi tarayıcı uyumluluğu için) */
+        .heart-clip-path {
+            clip-path: path('M50,85 C30,65 10,50 20,30 C30,10 40,10 50,20 C60,10 70,10 80,30 C90,50 70,65 50,85 Z');
+            -webkit-clip-path: path('M50,85 C30,65 10,50 20,30 C30,10 40,10 50,20 C60,10 70,10 80,30 C90,50 70,65 50,85 Z');
+        }
+
         @media (max-width: 768px) {
             .controls-container { max-width: 350px; }
             .music-control { max-width: 280px; padding: 20px; }
@@ -464,10 +478,10 @@
             .music-btn { width: 60px; height: 60px; font-size: 1.4rem; }
             .gallery-btn { width: 55px; height: 55px; font-size: 1.6rem; }
             .heart-container { width: 320px; height: 285px; }
-            .heart { width: 320px; height: 285px; }
-            .heart:before, .heart:after { width: 160px; height: 250px; }
-            .heart:before { left: 160px; }
-            .heart-image-container { width: 180px; height: 180px; }
+            .heart-outline { width: 320px; height: 285px; }
+            .heart-outline:before, .heart-outline:after { width: 160px; height: 250px; }
+            .heart-outline:before { left: 160px; }
+            .heart-image-container { width: 200px; height: 200px; }
             .hidden-message { font-size: 1.2rem; bottom: 50px; }
         }
 
@@ -477,10 +491,10 @@
             .music-control { max-width: 260px; padding: 15px; }
             .gallery-btn { width: 50px; height: 50px; font-size: 1.5rem; }
             .heart-container { width: 280px; height: 250px; }
-            .heart { width: 280px; height: 250px; }
-            .heart:before, .heart:after { width: 140px; height: 220px; }
-            .heart:before { left: 140px; }
-            .heart-image-container { width: 160px; height: 160px; }
+            .heart-outline { width: 280px; height: 250px; }
+            .heart-outline:before, .heart-outline:after { width: 140px; height: 220px; }
+            .heart-outline:before { left: 140px; }
+            .heart-image-container { width: 180px; height: 180px; }
             .gallery-nav-btn, .close-gallery-btn { width: 40px; height: 40px; font-size: 1.1rem; }
             .hidden-message { font-size: 1.1rem; bottom: 40px; }
         }
@@ -525,7 +539,7 @@
         </button>
         
         <div class="heart-container">
-            <div class="heart"></div>
+            <div class="heart-outline"></div>
             <div class="heart-image-container" id="heartImageContainer"></div>
         </div>
         
@@ -617,7 +631,8 @@
                 }
             }, 80);
         }
-function createSingleLale() {
+
+        function createSingleLale() {
             const laleContainer = document.getElementById('laleContainer');
             const lale = document.createElement('div');
             lale.className = 'lale';
@@ -658,7 +673,7 @@ function createSingleLale() {
                 const img = document.createElement('img');
                 img.src = imageUrl;
                 img.alt = `Resim ${index + 1}`;
-                img.className = 'gallery-image';
+                img.className = 'gallery-image heart-clip-path';
                 heartImageContainer.appendChild(img);
             });
             
@@ -821,4 +836,3 @@ function createSingleLale() {
     </script>
 </body>
 </html>
-        
