@@ -278,8 +278,8 @@
 
         .heart-container {
             position: relative;
-            width: 420px;
-            height: 380px;
+            width: 340px;
+            height: 310px;
             display: flex;
             justify-content: center;
             align-items: center;
@@ -298,16 +298,16 @@
         .heart-outline:after {
             content: '';
             position: absolute;
-            width: 50%;
-            height: 88%;
+            width: 170px;
+            height: 270px;
             background: transparent;
             border: 4px solid var(--neon-pink);
-            border-radius: 100px 100px 0 0;
+            border-radius: 85px 85px 0 0;
             box-shadow: 0 0 30px rgba(255, 45, 149, 0.5);
         }
 
         .heart-outline:before {
-            left: 50%;
+            left: 170px;
             transform: rotate(-45deg);
             transform-origin: 0 100%;
             border-left: none;
@@ -322,11 +322,11 @@
             border-bottom-right-radius: 0;
         }
 
-        /* Kalp şeklinde resim konteyneri - TAM BOYUT */
+        /* Kalp şeklinde resim konteyneri - DAHA KÜÇÜK ve ORANTILI */
         .heart-image-container {
             position: absolute;
-            width: 400px;
-            height: 360px;
+            width: 280px;
+            height: 250px;
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
@@ -334,7 +334,7 @@
             overflow: hidden;
         }
 
-        /* SVG mask ile kalp şekli */
+        /* SVG mask ile kalp şekli - DAHA KÜÇÜK */
         .heart-mask {
             width: 100%;
             height: 100%;
@@ -355,9 +355,9 @@
             object-fit: cover;
             opacity: 0;
             transition: opacity 1.5s ease;
-            /* CSS clip-path ile kalp şekli */
-            clip-path: path('M50,90 C20,70 0,50 10,30 C20,10 40,10 50,20 C60,10 80,10 90,30 C100,50 80,70 50,90 Z');
-            -webkit-clip-path: path('M50,90 C20,70 0,50 10,30 C20,10 40,10 50,20 C60,10 80,10 90,30 C100,50 80,70 50,90 Z');
+            /* CSS clip-path ile kalp şekli - ORANTILI */
+            clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+            -webkit-clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
         }
 
         .gallery-image.active {
@@ -480,8 +480,10 @@
             .music-title { font-size: 1.2rem; }
             .music-btn { width: 60px; height: 60px; font-size: 1.4rem; }
             .gallery-btn { width: 55px; height: 55px; font-size: 1.6rem; }
-            .heart-container { width: 350px; height: 315px; }
-            .heart-image-container { width: 330px; height: 295px; }
+            .heart-container { width: 300px; height: 275px; }
+            .heart-outline:before, .heart-outline:after { width: 150px; height: 240px; }
+            .heart-outline:before { left: 150px; }
+            .heart-image-container { width: 250px; height: 225px; }
             .hidden-message { font-size: 1.2rem; bottom: 50px; }
         }
 
@@ -490,8 +492,10 @@
             .controls-container { max-width: 300px; gap: 15px; }
             .music-control { max-width: 260px; padding: 15px; }
             .gallery-btn { width: 50px; height: 50px; font-size: 1.5rem; }
-            .heart-container { width: 300px; height: 270px; }
-            .heart-image-container { width: 280px; height: 250px; }
+            .heart-container { width: 260px; height: 240px; }
+            .heart-outline:before, .heart-outline:after { width: 130px; height: 210px; }
+            .heart-outline:before { left: 130px; }
+            .heart-image-container { width: 220px; height: 200px; }
             .gallery-nav-btn, .close-gallery-btn { width: 40px; height: 40px; font-size: 1.1rem; }
             .hidden-message { font-size: 1.1rem; bottom: 40px; }
         }
@@ -673,8 +677,9 @@
                 img.className = 'gallery-image';
                 heartImageContainer.appendChild(img);
                 
-                // Kalp maskesi ekle (alternatif olarak)
-                img.classList.add('heart-mask');
+                // Kalp maskesi ekle
+                img.style.clipPath = 'polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%)';
+                img.style.webkitClipPath = 'polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%)';
             });
             
             showImage(currentImageIndex);
